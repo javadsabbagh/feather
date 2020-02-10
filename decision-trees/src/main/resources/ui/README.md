@@ -1,0 +1,1 @@
+Some UI templates created by SceneBuilder are placed here.

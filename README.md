@@ -4,4 +4,7 @@ Feather is a collection of open-source utilities, games, educational application
 ## Some ideas for developeing Feather
 - Word Puzzle.
 - On-screen keyboard with right-to-left languages support.
-- High-school Math & Physics concepts.
+- Educational Math & Physics concepts.
+- AI
+- Diargrams
+- Game Theory

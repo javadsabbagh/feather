@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Point3D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="659.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Save" />
+            <MenuItem mnemonicParsing="false" text="Save As…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Import" />
+                  <MenuItem mnemonicParsing="false" text="Export" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Preferences…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Quit" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Undo" />
+            <MenuItem mnemonicParsing="false" text="Redo" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Cut" />
+            <MenuItem mnemonicParsing="false" text="Copy" />
+            <MenuItem mnemonicParsing="false" text="Paste" />
+            <MenuItem mnemonicParsing="false" text="Delete" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Select All" />
+            <MenuItem mnemonicParsing="false" text="Unselect All" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About " />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+      <ToolBar prefHeight="29.0" prefWidth="641.0">
+        <items>
+          <Button mnemonicParsing="false" text="Button" />
+        </items>
+      </ToolBar>
+      <SplitPane dividerPositions="0.3007075471698113" prefHeight="284.0" prefWidth="736.0" style="-fx-background-color: gold;" VBox.vgrow="ALWAYS">
+         <items>
+            <VBox minWidth="290.0" prefHeight="590.0" prefWidth="297.0" SplitPane.resizableWithParent="false">
+               <children>
+                  <HBox prefHeight="30.0" prefWidth="145.0" VBox.vgrow="NEVER">
+                     <children>
+                        <Label text="Search">
+                           <HBox.margin>
+                              <Insets left="3.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField HBox.hgrow="ALWAYS">
+                           <rotationAxis>
+                              <Point3D />
+                           </rotationAxis>
+                           <HBox.margin>
+                              <Insets right="5.0" top="2.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <ListView prefHeight="560.0" prefWidth="145.0" VBox.vgrow="ALWAYS" />
+               </children>
+               <rotationAxis>
+                  <Point3D />
+               </rotationAxis>
+            </VBox>
+            <ScrollPane prefHeight="590.0" prefWidth="624.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="651.0" prefWidth="602.0" />
+              </content>
+            </ScrollPane>
+         </items>
+      </SplitPane>
+  </children>
+</VBox>
