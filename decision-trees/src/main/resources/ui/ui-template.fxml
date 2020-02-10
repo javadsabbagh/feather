@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="659.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="659.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.fibers.apps.dtree.MyController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -57,7 +57,7 @@
     </MenuBar>
       <ToolBar prefHeight="29.0" prefWidth="641.0">
         <items>
-          <Button mnemonicParsing="false" text="Button" />
+          <Button mnemonicParsing="false" onAction="#onButtonAction" text="Button" />
         </items>
       </ToolBar>
       <SplitPane dividerPositions="0.3007075471698113" prefHeight="284.0" prefWidth="736.0" style="-fx-background-color: gold;" VBox.vgrow="ALWAYS">
@@ -89,7 +89,7 @@
             </VBox>
             <ScrollPane prefHeight="590.0" prefWidth="624.0">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="651.0" prefWidth="602.0" />
+                <AnchorPane fx:id="pane" minHeight="0.0" minWidth="0.0" prefHeight="651.0" prefWidth="602.0" />
               </content>
             </ScrollPane>
          </items>

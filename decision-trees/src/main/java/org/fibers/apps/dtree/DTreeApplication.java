@@ -18,9 +18,9 @@ public class DTreeApplication extends Application {
     public void start(Stage stage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/ui/ui-template.fxml"));
 
-        Scene scene = new Scene(root, 300, 275);
+        Scene scene = new Scene(root, 700, 500);
 
-        stage.setTitle("FXML Welcome");
+        stage.setTitle("Decision Trees ...");
         stage.setScene(scene);
         stage.show();
     }
