@@ -9,90 +9,133 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Ellipse?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<VBox prefHeight="659.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.fibers.apps.dtree.MyController">
-  <children>
-    <MenuBar VBox.vgrow="NEVER">
-      <menus>
-        <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Import" />
-                  <MenuItem mnemonicParsing="false" text="Export" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About " />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
-      <ToolBar prefHeight="29.0" prefWidth="641.0">
-        <items>
-          <Button mnemonicParsing="false" onAction="#onButtonAction" text="Button" />
-        </items>
-      </ToolBar>
-      <SplitPane dividerPositions="0.3007075471698113" prefHeight="284.0" prefWidth="736.0" style="-fx-background-color: gold;" VBox.vgrow="ALWAYS">
-         <items>
-            <VBox minWidth="290.0" prefHeight="590.0" prefWidth="297.0" SplitPane.resizableWithParent="false">
-               <children>
-                  <HBox prefHeight="30.0" prefWidth="145.0" VBox.vgrow="NEVER">
-                     <children>
-                        <Label text="Search">
-                           <HBox.margin>
-                              <Insets left="3.0" right="5.0" top="5.0" />
-                           </HBox.margin>
-                        </Label>
-                        <TextField HBox.hgrow="ALWAYS">
-                           <rotationAxis>
-                              <Point3D />
-                           </rotationAxis>
-                           <HBox.margin>
-                              <Insets right="5.0" top="2.0" />
-                           </HBox.margin>
-                        </TextField>
-                     </children>
-                  </HBox>
-                  <ListView prefHeight="560.0" prefWidth="145.0" VBox.vgrow="ALWAYS" />
-               </children>
-               <rotationAxis>
-                  <Point3D />
-               </rotationAxis>
-            </VBox>
-            <ScrollPane prefHeight="590.0" prefWidth="624.0">
-              <content>
-                <AnchorPane fx:id="pane" minHeight="0.0" minWidth="0.0" prefHeight="651.0" prefWidth="602.0" />
-              </content>
-            </ScrollPane>
-         </items>
-      </SplitPane>
-  </children>
+<VBox prefHeight="659.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.fibers.apps.dtree.DrawController">
+    <children>
+        <MenuBar VBox.vgrow="NEVER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Save Diagram As…" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Preferences…" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Quit" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Undo" />
+                        <MenuItem mnemonicParsing="false" text="Redo" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Cut" />
+                        <MenuItem mnemonicParsing="false" text="Copy" />
+                        <MenuItem mnemonicParsing="false" text="Paste" />
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Select All" />
+                        <MenuItem mnemonicParsing="false" text="Unselect All" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Workspace">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Save" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Import" />
+                        <MenuItem mnemonicParsing="false" text="Export" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Workspace info ..." />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#onSystemInfoAction" text="System info ..." />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#onHelpAction" text="About " />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <ToolBar prefHeight="29.0" prefWidth="641.0">
+            <items>
+                <ToggleButton fx:id="ellipseBtn" mnemonicParsing="false" text="Ellipse">
+                    <toggleGroup>
+                        <ToggleGroup fx:id="shapeGroup" />
+                    </toggleGroup>
+                </ToggleButton>
+                <ToggleButton fx:id="rectBtn" mnemonicParsing="false" text="Rect" toggleGroup="$shapeGroup" />
+                <ToggleButton fx:id="lineBtn" mnemonicParsing="false" text="Line" toggleGroup="$shapeGroup" />
+                <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" />
+                <Button fx:id="saveBtn" mnemonicParsing="false" text="Save" />
+            <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" />
+            <ToggleButton mnemonicParsing="false" text="Pan Mode">
+               <toggleGroup>
+                  <ToggleGroup fx:id="modeGroup" />
+               </toggleGroup>
+            </ToggleButton>
+            <ToggleButton mnemonicParsing="false" text="Select Mode" toggleGroup="$modeGroup" />
+            </items>
+        </ToolBar>
+        <SplitPane dividerPositions="0.3007075471698113" prefHeight="284.0" prefWidth="736.0" style="-fx-background-color: gold;" VBox.vgrow="ALWAYS">
+            <items>
+                <VBox minWidth="290.0" prefHeight="590.0" prefWidth="297.0" SplitPane.resizableWithParent="false">
+                    <children>
+                        <HBox prefHeight="30.0" prefWidth="145.0" VBox.vgrow="NEVER">
+                            <children>
+                                <Label text="Search">
+                                    <HBox.margin>
+                                        <Insets left="3.0" right="5.0" top="5.0" />
+                                    </HBox.margin>
+                                </Label>
+                                <TextField fx:id="searchEdit" HBox.hgrow="ALWAYS">
+                                    <rotationAxis>
+                                        <Point3D />
+                                    </rotationAxis>
+                                    <HBox.margin>
+                                        <Insets right="5.0" top="2.0" />
+                                    </HBox.margin>
+                                </TextField>
+                            </children>
+                        </HBox>
+                        <ListView prefHeight="560.0" prefWidth="145.0" VBox.vgrow="ALWAYS" />
+                    </children>
+                    <rotationAxis>
+                        <Point3D />
+                    </rotationAxis>
+                </VBox>
+                <ScrollPane prefHeight="590.0" prefWidth="624.0">
+                    <content>
+                        <AnchorPane fx:id="drawPane" minHeight="0.0" minWidth="0.0" onMouseClicked="#onDrawPaneClicked" onMouseDragged="#onDrawPaneDragged" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: green;">
+                            <children>
+                                <Ellipse fill="DODGERBLUE" layoutX="284.0" layoutY="87.0" radiusX="100.0" radiusY="39.0" stroke="BLACK" strokeType="INSIDE" />
+                                <Ellipse fill="DODGERBLUE" layoutX="119.0" layoutY="346.0" radiusX="94.0" radiusY="38.0" stroke="BLACK" strokeType="INSIDE" />
+                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="69.0" layoutX="327.0" layoutY="294.0" stroke="BLACK" strokeType="INSIDE" width="141.0" />
+                                <Line endX="75.0" endY="-8.0" layoutX="149.0" layoutY="128.0" startX="-24.0" startY="180.0" />
+                                <Text layoutX="140.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="سیسیسیسی" wrappingWidth="68.0">
+                                    <font>
+                                        <Font name="Chilanka Regular" size="13.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </ScrollPane>
+            </items>
+        </SplitPane>
+    </children>
 </VBox>
