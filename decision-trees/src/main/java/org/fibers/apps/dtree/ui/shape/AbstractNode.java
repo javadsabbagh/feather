@@ -15,7 +15,7 @@ import javafx.scene.shape.Rectangle;
  */
 public class AbstractNode extends Pane {
 
-    private double margin = 1.0;
+    private double margin = 2.0;
 
     // Handles
     private static final int handleSize = 6;
@@ -29,9 +29,6 @@ public class AbstractNode extends Pane {
     private Rectangle bottomHandle;
     private Rectangle bottomRightHandle;
 
-    // Header
-    private String titleStr;
-
     private final SimpleObjectProperty<AbstractNode> selectedProperty;
     private Pane content;
 
@@ -43,8 +40,6 @@ public class AbstractNode extends Pane {
     // todo make abstract
     protected Pane createContent() {
         Pane pane = new Pane();
-//        pane.setPrefWidth(100);
-//        pane.setPrefHeight(100);
         pane.setStyle("-fx-background-color: yellow");
         pane.setOpacity(0.5);
         return pane;
@@ -53,12 +48,12 @@ public class AbstractNode extends Pane {
     private void createNode() {
         content = createContent();
         setEventHandlers();
-
-        //createHandles();
-        //this.getChildren().addAll(content, topLeftHandle, topHandle, topRightHandle, leftHandle, rightHandle, bottomLeftHandle, bottomHandle, bottomRightHandle);
         this.getChildren().addAll(content);
     }
 
+    /**
+     *  Note: We usually handle events on parent level, though it is possible to handle events with 'content' child.
+     *  */
     private void setEventHandlers() {
         this.selectedProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue == AbstractNode.this) {
@@ -70,32 +65,30 @@ public class AbstractNode extends Pane {
             }
         });
 
-        // todo has no effect
         this.setOnMouseClicked(event -> {
-            AbstractNode.this.selectedProperty.set(AbstractNode.this);
-        });
-
-        content.setOnMouseClicked(event -> {
             AbstractNode.this.selectedProperty.set(AbstractNode.this);
         });
 
         /**
          * Mark mouse position for drag, resize, move, etc.
          */
-        content.setOnMousePressed(event -> {
+        this.setOnMousePressed(event -> {
             System.out.println("on mouse pressed");
             oldX = event.getSceneX();
             oldY = event.getSceneY();
 
             AbstractNode.this.toFront();
+
+            AbstractNode.this.selectedProperty.set(AbstractNode.this);
+            event.consume(); // important: don't let parent catch this event again!
         });
 
-        content.setOnMouseReleased(event -> content.setCursor(Cursor.DEFAULT));
+        this.setOnMouseReleased(event -> this.setCursor(Cursor.DEFAULT));
 
-        content.setOnMouseDragged(event -> {
+        this.setOnMouseDragged(event -> {
             System.out.println("Mouse dragged ... " + " screenX: " + event.getScreenX() + " sceneX: " + event.getSceneX() + " X: " + event.getX());
-
             this.setCursor(Cursor.MOVE);
+
             AbstractNode.this.setLayoutX(getLayoutX() + (event.getSceneX() - oldX));
             AbstractNode.this.setLayoutY(getLayoutY() + (event.getSceneY() - oldY));
 
@@ -104,22 +97,25 @@ public class AbstractNode extends Pane {
         });
 
         this.widthProperty().addListener((observable, oldValue, newValue) -> {
-            // todo move to layout content
-            content.setPrefWidth(AbstractNode.this.getWidth() - 2 * margin);
-            //layoutHandles();
+            layoutContent();
+            layoutHandles();
         });
 
         this.heightProperty().addListener((observable, oldValue, newValue) -> {
-            // todo move to layout content
-            /**
-             * Content needs to be updated first, because some handle
-             * positions depend on it.
-             */
-            content.setPrefHeight(AbstractNode.this.getHeight() - 2 * margin);
-            //layoutHandles();
-//            double titleHeight = JavafxUtil.findTextSize(title.getText(), title.getFont()).getHeight();
-//            title.setLayoutY(margin + headerHeight / 2 - titleHeight / 2 - title.getBaselineOffset() / 2);
+            layoutContent();
+            layoutHandles();
         });
+    }
+
+    private void layoutContent() {
+        /**
+         * Content needs to be updated first, because some handle
+         * positions depend on it.
+         */
+        content.setLayoutX(margin);
+        content.setLayoutY(margin);
+        content.setPrefWidth(AbstractNode.this.getWidth() - 2 * margin);
+        content.setPrefHeight(AbstractNode.this.getHeight() - 2 * margin);
     }
 
     private void createHandles() {
@@ -267,37 +263,82 @@ public class AbstractNode extends Pane {
             oldX = event.getSceneX();
             oldY = event.getSceneY();
         });
+
+        // Add handles as children
+        this.getChildren().addAll(topLeftHandle,
+                topHandle,
+                topRightHandle,
+                leftHandle,
+                rightHandle,
+                bottomLeftHandle,
+                bottomHandle,
+                bottomRightHandle);
+
+        layoutHandles();
+    }
+
+    private void removeHandles() {
+        // first, unregister handle events
+        topLeftHandle.setOnMouseDragged(null);
+        topHandle.setOnMouseDragged(null);
+        topRightHandle.setOnMouseDragged(null);
+        leftHandle.setOnMouseDragged(null);
+        rightHandle.setOnMouseDragged(null);
+        bottomLeftHandle.setOnMouseDragged(null);
+        bottomHandle.setOnMouseDragged(null);
+        bottomRightHandle.setOnMouseDragged(null);
+
+        // then, remove handles from node
+        this.getChildren().removeAll(topLeftHandle,
+                topHandle,
+                topRightHandle,
+                leftHandle,
+                rightHandle,
+                bottomLeftHandle,
+                bottomHandle,
+                bottomRightHandle);
+
+        // finally, assign handles to null to be garbage collected!
+        topLeftHandle=null;
+        topHandle=null;
+        topRightHandle=null;
+        leftHandle=null;
+        rightHandle=null;
+        bottomLeftHandle=null;
+        bottomHandle=null;
+        bottomRightHandle=null;
     }
 
     private void layoutHandles() {
-        double parentWidth = this.widthProperty().doubleValue();
-        double parentHeight = this.heightProperty().doubleValue();
+        if (isSelected()) {
+            double parentWidth = this.widthProperty().doubleValue();
+            double parentHeight = this.heightProperty().doubleValue();
 
-        topLeftHandle.setLayoutX(margin - handleSize / 2);
-        topLeftHandle.setLayoutY(margin - handleSize / 2);
+            topLeftHandle.setLayoutX(margin - handleSize / 2);
+            topLeftHandle.setLayoutY(margin - handleSize / 2);
 
-        topHandle.setLayoutX(parentWidth / 2 - handleSize / 2); // layout the handle at the center
-        topHandle.setLayoutY(margin - handleSize / 2);
+            topHandle.setLayoutX(parentWidth / 2 - handleSize / 2); // layout the handle at the center
+            topHandle.setLayoutY(margin - handleSize / 2);
 
-        topRightHandle.setLayoutX(parentWidth - margin - handleSize / 2);
-        topRightHandle.setLayoutY(margin - handleSize / 2);
+            topRightHandle.setLayoutX(parentWidth - margin - handleSize / 2);
+            topRightHandle.setLayoutY(margin - handleSize / 2);
 
-        leftHandle.setLayoutX(margin - handleSize / 2);
-        leftHandle.setLayoutY(margin + content.getPrefHeight() / 2 - handleSize / 2);
+            leftHandle.setLayoutX(margin - handleSize / 2);
+            leftHandle.setLayoutY(margin + content.getPrefHeight() / 2 - handleSize / 2);
 
-        rightHandle.setLayoutX(parentWidth - margin - handleSize / 2);
-        rightHandle.setLayoutY(margin + content.getPrefHeight() / 2 - handleSize / 2);
+            rightHandle.setLayoutX(parentWidth - margin - handleSize / 2);
+            rightHandle.setLayoutY(margin + content.getPrefHeight() / 2 - handleSize / 2);
 
-        bottomLeftHandle.setLayoutX(margin - handleSize / 2);
-        bottomLeftHandle.setLayoutY(parentHeight - margin - handleSize / 2);
+            bottomLeftHandle.setLayoutX(margin - handleSize / 2);
+            bottomLeftHandle.setLayoutY(parentHeight - margin - handleSize / 2);
 
-        bottomHandle.setLayoutX(parentWidth / 2 - handleSize / 2);
-        bottomHandle.setLayoutY(parentHeight - margin - handleSize / 2);
+            bottomHandle.setLayoutX(parentWidth / 2 - handleSize / 2);
+            bottomHandle.setLayoutY(parentHeight - margin - handleSize / 2);
 
-        bottomRightHandle.setLayoutX(parentWidth - margin - handleSize / 2);
-        bottomRightHandle.setLayoutY(parentHeight - margin - handleSize / 2);
+            bottomRightHandle.setLayoutX(parentWidth - margin - handleSize / 2);
+            bottomRightHandle.setLayoutY(parentHeight - margin - handleSize / 2);
+        }
     }
-
 
     private double oldX;
     private double oldY;
@@ -308,14 +349,6 @@ public class AbstractNode extends Pane {
 
     public void setMargin(double margin) {
         this.margin = margin;
-    }
-
-    public String getTitle() {
-        return titleStr;
-    }
-
-    public void setTitle(String title) {
-        this.titleStr = title;
     }
 
     public boolean isSelected() {
@@ -331,9 +364,8 @@ public class AbstractNode extends Pane {
     }
 
     private void renderSelected() {
-        // add handles
-        // register handle actions
-        // add style
+        createHandles();
+        /* Set selected style */
         /**
          * Set the border.
          * <p>
@@ -354,9 +386,8 @@ public class AbstractNode extends Pane {
     }
 
     private void renderUnSelected() {
-        // add handles
-        // register handle actions
-        // add style
+        this.removeHandles();
+        /* reset style */
         this.setStyle("");
     }
 

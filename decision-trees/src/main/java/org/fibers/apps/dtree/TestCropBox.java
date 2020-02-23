@@ -14,6 +14,13 @@ import org.fibers.apps.dtree.ui.shape.AbstractNode;
  */
 public class TestCropBox extends Application {
 
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     private Pane root;
 
     @Override
@@ -27,15 +34,9 @@ public class TestCropBox extends Application {
         primaryStage.show();
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
-    }
-
     private void createComponents() {
         SimpleObjectProperty<AbstractNode> selectedProperty = new SimpleObjectProperty<>();
+
         AbstractNode box1 = new AbstractNode(selectedProperty);
         box1.setLayoutX(270);
         box1.setLayoutY(40);
@@ -64,21 +65,15 @@ public class TestCropBox extends Application {
         box4.setPrefWidth(200);
         box4.setPrefHeight(200);
 
-        ImageView imageView = new ImageView("file:///C:/Documents%20and%20Settings/sabbagh.BEHINCO/Desktop/Doc/005.bmp");
-        imageView.setLayoutX(0);
-        imageView.setLayoutY(0);
-        imageView.setFitWidth(650);
-        imageView.setFitHeight(650);
-
         root = new Pane();
         root.setPrefWidth(650);
         root.setPrefHeight(650);
 
-        root.widthProperty().addListener((observable, oldValue, newValue) -> imageView.setFitWidth(newValue.doubleValue()));
+        root.getChildren().addAll(box1, box2, box3, box4);
 
-        root.heightProperty().addListener((observable, oldValue, newValue) -> imageView.setFitHeight(newValue.doubleValue()));
-
-        root.getChildren().addAll(imageView, box1, box2, box3, box4);
+        root.setOnMousePressed(event -> {
+            selectedProperty.set(null);
+        });
     }
 
 }
