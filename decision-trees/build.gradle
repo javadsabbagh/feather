@@ -30,4 +30,4 @@ dependencies {
     // todo add testfx dependency here
 }
 
-mainClassName = 'org.fibers.apps.dtree.TestCropBox'
+mainClassName = 'org.fibers.apps.dtree.MainApplication'
